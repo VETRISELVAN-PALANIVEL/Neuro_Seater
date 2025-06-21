@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import UserInputPage from "./UserInputPage";
+import OutputPage from "./OutputPage";
 
 function App() {
+  const [page, setPage] = useState("input");
+  const [excelData, setExcelData] = useState([]);
+  const [config, setConfig] = useState({});
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {page === "input" && (
+        <UserInputPage
+          onGenerate={(data, config) => {
+            setExcelData(data);
+            setConfig(config);
+            setPage("output");
+          }}
+        />
+      )}
+      {page === "output" && (
+        <OutputPage
+          excelData={excelData}
+          config={config}
+          onBack={() => setPage("input")}
+        />
+      )}
     </div>
   );
 }
